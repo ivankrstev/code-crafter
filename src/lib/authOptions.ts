@@ -3,18 +3,13 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import EmailProvider from "next-auth/providers/email";
+import sendMagicLinkEmail from "./sendMagicLinkEmail";
 
 const providers = [
   EmailProvider({
-    server: {
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
+    sendVerificationRequest: async ({ identifier: email, url }) => {
+      await sendMagicLinkEmail(url, email);
     },
-    from: process.env.EMAIL_FROM,
   }),
 ];
 
