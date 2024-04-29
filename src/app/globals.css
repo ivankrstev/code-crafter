@@ -11,8 +11,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-color: #fff;
-    --background-color: #17191e;
-    --form-background: #14213d;
+    --background-color: #333333;
+    --form-background: #203040;
   }
 }
 
@@ -25,6 +25,38 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .filter-white {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(19deg)
+      brightness(102%) contrast(103%);
+  }
+  .filter-black {
+    filter: invert(0%) sepia(82%) saturate(7500%) hue-rotate(31deg)
+      brightness(117%) contrast(117%);
+  }
+  .scrollbar::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+  }
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #f7f4ed;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #48638e;
+    border-radius: 100vh;
+    border: 2px solid #f6f7ed;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #3a5073;
+  }
+  @keyframes slideText {
+    to {
+      transform: translateX(var(--distance));
+    }
+  }
+  .slide {
+    animation: slideText var(--duration) linear forwards;
+  }
 }
 
 img {
@@ -36,4 +68,8 @@ img {
   -khtml-user-drag: none;
   -moz-user-drag: none;
   -o-user-drag: none;
+}
+
+input {
+  outline: none;
 }
