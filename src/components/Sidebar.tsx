@@ -1,9 +1,8 @@
 "use client";
 import CreateVaultModal from "@/components/CreateVaultModal";
+import VaultsListing from "@/components/VaultsListing";
 import Image from "next/image";
-import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 
 export default function Sidebar({
   isSidebarOpen,
@@ -13,14 +12,6 @@ export default function Sidebar({
   closeSidebar: () => void;
 }) {
   const [createVaultModalOpen, setCreateVaultModalOpen] = useState(false);
-  const vaultParam = useSelectedLayoutSegment();
-  useEffect(() => {
-    setSelectedVault(vaultParam);
-    if (vaultParam) document.getElementById(vaultParam)?.focus();
-  }, [vaultParam]);
-
-  const [selectedVault, setSelectedVault] = useState<string | null>(vaultParam);
-  const [vaults, setVaults] = useState([{ id: "vault1", name: "Vault 1" }]);
 
   return (
     <Fragment>
@@ -36,6 +27,8 @@ export default function Sidebar({
           <Image
             src="/code-crafter-full-logo.svg"
             alt="Logo"
+            className="h-auto w-7/12"
+            priority
             width={150}
             height={100}
           />
@@ -73,41 +66,7 @@ export default function Sidebar({
               />
             )}
           </div>
-          <div className="scrollbar mt-2 flex max-h-72 w-full flex-col overflow-y-auto overflow-x-hidden pr-1">
-            {vaults.map((vault) => (
-              <Link
-                key={vault.id}
-                id={vault.id}
-                href={`/snipboard/${vault.id}`}
-                className={`${selectedVault === vault.id ? "bg-white dark:bg-gray-400" : ""} w-full text-nowrap rounded-lg pl-3 outline-none transition-all duration-200 hover:bg-slate-200 dark:hover:bg-gray-600`}
-                onClick={closeSidebar}
-                title={vault.name}
-              >
-                <p
-                  className="py-2"
-                  onMouseOver={(
-                    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-                  ) => {
-                    const link = e.target as HTMLParagraphElement;
-                    if (link.scrollWidth > link.clientWidth) {
-                      const duration =
-                        (link.scrollWidth - link.clientWidth) / 50;
-                      link.style.setProperty("--duration", duration + "s");
-                      link.classList.add("slide");
-                    }
-                  }}
-                  onMouseOut={(
-                    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-                  ) => {
-                    const vaultName = e.target as HTMLParagraphElement;
-                    vaultName.classList.remove("slide");
-                  }}
-                >
-                  {vault.name}
-                </p>
-              </Link>
-            ))}
-          </div>
+          <VaultsListing closeSidebar={() => closeSidebar()} />
         </div>
       </div>
     </Fragment>
