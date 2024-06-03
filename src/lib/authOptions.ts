@@ -1,15 +1,20 @@
 import prisma from "@/lib/prisma";
+import sendMagicLinkEmail from "@/lib/sendMagicLinkEmail";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import EmailProvider from "next-auth/providers/email";
-import sendMagicLinkEmail from "./sendMagicLinkEmail";
+import GoogleProvider from "next-auth/providers/google";
 
 const providers = [
   EmailProvider({
     sendVerificationRequest: async ({ identifier: email, url }) => {
       await sendMagicLinkEmail(url, email);
     },
+  }),
+  GoogleProvider({
+    clientId: process.env.GOOGLE_CLIENT_ID!,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
   }),
 ];
 
