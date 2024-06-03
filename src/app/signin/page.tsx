@@ -1,31 +1,46 @@
-"use client";
-import { signIn } from "next-auth/react";
-import Head from "next/head";
-import Image from "next/image";
-import { FormEvent, Fragment } from "react";
+import SocialSigninButton from "@/components/SocialSigninButton";
+import { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { Fragment } from "react";
 
-export default function Login() {
-  const submitFormWithEmailSignin = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
+export const metadata: Metadata = {
+  title: "Sign in | Code Crafter",
+  description: "Sign in to your account to access your snippets and more",
+};
+
+export default async function Signin() {
+  async function signinUserWithEmail(formData: FormData) {
+    "use server";
     const email = formData.get("email") as string;
-    await signIn("email", { email, callbackUrl: "/" });
-  };
-
-  const signInWithExternalProvider = async (provider: string) =>
-    await signIn(provider, { callbackUrl: "/" });
+    const csrfTokenByFetch = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/auth/csrf`,
+    );
+    const getSetCookie = csrfTokenByFetch.headers.get("set-cookie") || "";
+    const { csrfToken } = await csrfTokenByFetch.json();
+    const response = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/auth/signin/email`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          cookie: getSetCookie,
+        },
+        body: JSON.stringify({ email, csrfToken, callbackUrl: "/snipboard" }),
+      },
+    );
+    return response.ok
+      ? redirect("/verify-request")
+      : redirect("/signin?error=email");
+  }
 
   return (
     <Fragment>
-      <Head>
-        <title>Sign in | Code Crafter</title>
-      </Head>
       <div className="flex h-screen items-center justify-center">
         <div className="w-96 rounded-lg bg-form p-8 shadow-xl">
           <h1 className="mb-6 text-center text-2xl font-semibold">
             Sign in to your account
           </h1>
-          <form onSubmit={submitFormWithEmailSignin}>
+          <form action={signinUserWithEmail}>
             <div>
               <label htmlFor="email" className="text-sm font-medium">
                 Email address
@@ -42,7 +57,7 @@ export default function Login() {
             <div className="mt-5 text-center">
               <button
                 type="submit"
-                className="w-full rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="w-full rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm transition-all hover:bg-indigo-500 focus:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 active:scale-95"
               >
                 Continue
               </button>
@@ -57,30 +72,8 @@ export default function Login() {
               <div className="flex-grow border-t border-gray-300"></div>
             </div>
             <div className="mt-5 flex w-full gap-4 text-sm">
-              <button
-                onClick={() => signInWithExternalProvider("google")}
-                className="flex flex-grow items-center justify-center gap-2 rounded-md border bg-white px-4 py-2 text-black shadow-md ring-inset hover:bg-gray-100"
-              >
-                <Image
-                  src="/icons/google.svg"
-                  alt="Google Icon"
-                  width={22}
-                  height={22}
-                />
-                Google
-              </button>
-              <button
-                onClick={() => signInWithExternalProvider("github")}
-                className="flex flex-grow items-center justify-center gap-2 rounded-md border bg-white px-4 py-2 text-black shadow-md ring-inset hover:bg-gray-100"
-              >
-                <Image
-                  src="/icons/github.svg"
-                  alt="GitHub Icon"
-                  width={22}
-                  height={22}
-                />
-                GitHub
-              </button>
+              <SocialSigninButton type="google" />
+              <SocialSigninButton type="github" />
             </div>
           </div>
         </div>
