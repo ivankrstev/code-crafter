@@ -1,22 +1,20 @@
-"use client";
 import HeaderBar from "@/components/HeaderBar";
-import Sidebar from "@/components/Sidebar";
-import { useState } from "react";
+import Sidebars from "@/components/sidebar/Sidebars";
 
 export default function SnipBoardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const closeSidebar = () => setIsSidebarOpen(false);
-
   return (
-    <div className="flex min-h-screen w-screen max-w-full">
-      <Sidebar isSidebarOpen={isSidebarOpen} closeSidebar={closeSidebar} />
-      <div className="flex grow flex-col">
-        <HeaderBar setIsSidebarOpen={setIsSidebarOpen} />
-        <div className="h-auto grow">{children}</div>
+    <div className="flex">
+      <Sidebars />
+      <div
+        id="main-content"
+        className="max-w-[100%] flex-1 md:max-w-[calc(100%-320px)]"
+      >
+        <HeaderBar />
+        {children}
       </div>
     </div>
   );
