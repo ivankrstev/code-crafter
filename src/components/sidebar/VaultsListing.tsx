@@ -1,30 +1,25 @@
 "use client";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 export default function VaultsListing({
   closeSidebar,
+  setSelectedVault,
+  selectedVault,
+  closeMainSidebar,
 }: {
+  selectedVault: string | null;
+  setSelectedVault: (vault: string) => void;
   closeSidebar: () => void;
+  closeMainSidebar: () => void;
 }) {
-  const vaultParam = useSelectedLayoutSegment();
-  const [selectedVault, setSelectedVault] = useState<string | null>(vaultParam);
   const [vaults, setVaults] = useState<Array<{ id: string; name: string }>>([]);
 
   const fetchVaults = async () =>
     await fetch("/api/vaults").then((res) => res.json());
   const { data, error, isLoading } = useSWR("/api/vaults", fetchVaults);
-
-  useEffect(() => {
-    if (data) setVaults(data.vaults);
-  }, [data]);
-
-  useEffect(() => {
-    setSelectedVault(vaultParam);
-    if (vaultParam) document.getElementById(vaultParam)?.focus();
-  }, [vaultParam]);
+  useEffect(() => data && setVaults(data.vaults), [data]);
 
   if (error)
     return (
@@ -55,7 +50,11 @@ export default function VaultsListing({
           id={vault.id}
           href={`/snipboard/${vault.id}`}
           className={`${selectedVault === vault.id ? "bg-white dark:bg-gray-400" : ""} w-full text-nowrap rounded-lg pl-3 outline-none transition-all duration-200 hover:bg-slate-200 dark:hover:bg-gray-600`}
-          onClick={closeSidebar}
+          onClick={() => {
+            setSelectedVault(vault.id);
+            closeSidebar();
+            closeMainSidebar();
+          }}
           title={vault.name}
         >
           <p
