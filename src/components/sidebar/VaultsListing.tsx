@@ -34,11 +34,11 @@ export default function VaultsListing({
   if (isLoading)
     return (
       <div className="mt-2 flex max-h-72 w-full animate-pulse flex-col pr-1">
-        <div className="mb-4 h-7 w-full rounded bg-gray-300" />
-        <div className="mb-4 h-7 w-full rounded bg-gray-300" />
-        <div className="mb-4 h-7 w-full rounded bg-gray-300" />
-        <div className="mb-4 h-7 w-full rounded bg-gray-300" />
-        <div className="mb-4 h-7 w-full rounded bg-gray-300" />
+        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
+        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
+        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
+        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
+        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
       </div>
     );
 
@@ -49,7 +49,7 @@ export default function VaultsListing({
           key={vault.id}
           id={vault.id}
           href={`/snipboard/${vault.id}`}
-          className={`${selectedVault === vault.id ? "bg-white dark:bg-gray-400" : ""} w-full text-nowrap rounded-lg pl-3 outline-none transition-all duration-200 hover:bg-slate-200 dark:hover:bg-gray-600`}
+          className={`${selectedVault === vault.id ? "bg-white dark:bg-gray-400" : ""} my-0.5 w-full text-nowrap rounded-lg py-1 pl-2.5 text-sm outline-none transition-all duration-200 hover:bg-slate-200 dark:hover:bg-gray-600`}
           onClick={() => {
             setSelectedVault(vault.id);
             closeSidebar();
@@ -57,29 +57,8 @@ export default function VaultsListing({
           }}
           title={vault.name}
         >
-          <p
-            className="py-2"
-            onMouseOver={(
-              e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-            ) => {
-              const link = e.target as HTMLParagraphElement;
-              if (link.scrollWidth > link.clientWidth) {
-                const distance = link.scrollWidth - link.clientWidth;
-                const duration = distance / 55;
-                link.style.setProperty("--duration", duration + "s");
-                link.style.setProperty("--distance", -distance + "px");
-                link.classList.add("slide");
-              }
-            }}
-            onMouseOut={(
-              e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-            ) => {
-              const vaultName = e.target as HTMLParagraphElement;
-              vaultName.classList.remove("slide");
-            }}
-          >
-            {vault.name}
-          </p>
+          <span className="mr-2 inline-block h-2 w-2 bg-gray-600 dark:bg-gray-100" />
+          {vault.name}
         </Link>
       ))}
     </div>
