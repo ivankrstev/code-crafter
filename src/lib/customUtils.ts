@@ -1,3 +1,5 @@
+import { RefObject } from "react";
+
 const resizeSelectToFitText = (selectElement: HTMLSelectElement) => {
   const selectedOption = selectElement.options[selectElement.selectedIndex];
   var oStyles = getComputedStyle(selectedOption);
@@ -17,7 +19,62 @@ const resizeSelectToFitText = (selectElement: HTMLSelectElement) => {
   selectElement.style.width = `${width + 25}px`;
 };
 
-export { resizeSelectToFitText };
+const handleTextareaKeyDown = (
+  e: React.KeyboardEvent<HTMLTextAreaElement>,
+  textareaRef: RefObject<HTMLTextAreaElement | null>,
+  code: string,
+  setCode: (code: string) => void,
+) => {
+  const textarea = textareaRef.current;
+  if (!textarea) return;
+  const { selectionStart, selectionEnd } = textarea;
+
+  if (e.key === "Tab") {
+    e.preventDefault();
+    if (e.shiftKey) {
+      const start = code.lastIndexOf("\t", selectionStart - 1);
+      if (start >= 0 && code.substring(start, start + 1) === "\t") {
+        const newValue = code.substring(0, start) + code.substring(start + 1);
+        setCode(newValue);
+        setTimeout(() => {
+          if (textarea) textarea.selectionStart = textarea.selectionEnd = start;
+        }, 0);
+      }
+      return;
+    }
+    const newValue =
+      code.substring(0, selectionStart) + "\t" + code.substring(selectionEnd);
+    setCode(newValue);
+    setTimeout(() => {
+      if (textarea) {
+        textarea.selectionStart = textarea.selectionEnd = selectionStart + 1;
+      }
+    }, 0);
+  } else if (["[", "{", "("].includes(e.key)) {
+    // Handle brackets
+    e.preventDefault();
+    const openingBracket = e.key;
+    const closingBracket = e.key === "[" ? "]" : e.key === "{" ? "}" : ")";
+    let newValue = code.substring(0, selectionStart);
+    if (selectionStart === selectionEnd)
+      newValue += openingBracket + closingBracket;
+    else
+      newValue +=
+        openingBracket +
+        code.substring(selectionStart, selectionEnd) +
+        closingBracket;
+    newValue += code.substring(selectionEnd);
+    setCode(newValue);
+    setTimeout(() => {
+      if (textarea) {
+        textarea.selectionStart = selectionEnd + 1;
+        textarea.selectionEnd = selectionEnd + 1;
+      }
+    }, 0);
+  }
+};
+
+export { handleTextareaKeyDown, resizeSelectToFitText };
 
 declare global {
   interface Window {
