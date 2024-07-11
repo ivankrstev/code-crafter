@@ -24,6 +24,8 @@ const handleTextareaKeyDown = (
   textareaRef: RefObject<HTMLTextAreaElement | null>,
   code: string,
   setCode: (code: string) => void,
+  undo: () => void,
+  redo: () => void,
 ) => {
   const textarea = textareaRef.current;
   if (!textarea) return;
