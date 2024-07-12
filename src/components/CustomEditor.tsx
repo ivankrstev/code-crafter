@@ -26,44 +26,53 @@ export default function CustomEditor({
   displayLineNumbers,
 }: CustomEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [codeHistory, setCodeHistory] = useState<string[]>([code]);
-  const [codeHistoryIndex, setCodeHistoryIndex] = useState<number>(0);
+  const [codeHistory, setCodeHistory] = useState<CodeHistoryEntry[]>([
+    { code, cursorPosition: 0 },
+  ]);
+  const [currentCodeHistoryIndex, setCurrentCodeHistoryIndex] =
+    useState<number>(0);
 
   const updateCode = (newCode: string) => {
-    const newCodeHistory = codeHistory.slice(0, codeHistoryIndex + 1);
-    setCodeHistory([...newCodeHistory, newCode]);
-    setCodeHistoryIndex(newCodeHistory.length);
+    const cursorPosition = textareaRef.current?.selectionStart ?? 0;
+    const newCodeHistoryEntry = { code: newCode, cursorPosition };
+    const updatedHistory = codeHistory.slice(0, currentCodeHistoryIndex + 1);
+    setCodeHistory([...updatedHistory, newCodeHistoryEntry]);
+    setCurrentCodeHistoryIndex(updatedHistory.length);
     setCode(newCode);
   };
 
   const handleKeyDownCallback = useCallback(
     (e: KeyboardEvent<HTMLTextAreaElement>) => {
-      const textarea = textareaRef.current!;
-      const { selectionStart, selectionEnd } = textarea;
       const undo = () => {
-        if (codeHistoryIndex > 0) {
-          setCodeHistoryIndex(codeHistoryIndex - 1);
-          setCode(codeHistory[codeHistoryIndex - 1]);
-          setTimeout(() => {
-            textarea.selectionStart = textarea.selectionEnd =
-              selectionStart - 1;
-          }, 0);
+        if (currentCodeHistoryIndex > 0) {
+          const newIndex = currentCodeHistoryIndex - 1;
+          const newCodeHistoryEntry = codeHistory[newIndex];
+          setCurrentCodeHistoryIndex(newIndex);
+          setCode(newCodeHistoryEntry.code);
+          restoreCursorPosition(newCodeHistoryEntry.cursorPosition);
         }
       };
       const redo = () => {
-        if (codeHistoryIndex < codeHistory.length - 1) {
-          setCodeHistoryIndex(codeHistoryIndex + 1);
-          setCode(codeHistory[codeHistoryIndex + 1]);
-          setTimeout(() => {
-            textarea.selectionStart = textarea.selectionEnd =
-              selectionStart + 1;
-          }, 0);
+        if (currentCodeHistoryIndex < codeHistory.length - 1) {
+          const newIndex = currentCodeHistoryIndex + 1;
+          setCurrentCodeHistoryIndex(newIndex);
+          setCode(codeHistory[newIndex].code);
+          restoreCursorPosition(codeHistory[newIndex].cursorPosition);
         }
       };
       handleTextareaKeyDown(e, textareaRef, code, setCode, undo, redo);
     },
-    [code, setCode, codeHistory, codeHistoryIndex],
+    [code, setCode, codeHistory, currentCodeHistoryIndex],
   );
+
+  const restoreCursorPosition = (cursorPosition: number) => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = cursorPosition;
+      }, 0);
+    }
+  };
 
   return (
     <div className="editor-container scrollbar relative flex max-h-[300px] w-full max-w-full overflow-auto text-[12px]/[18px] focus-within:shadow-2xl focus:shadow-2xl">

@@ -68,11 +68,18 @@ const handleTextareaKeyDown = (
     newValue += code.substring(selectionEnd);
     setCode(newValue);
     setTimeout(() => {
-      if (textarea) {
-        textarea.selectionStart = selectionEnd + 1;
-        textarea.selectionEnd = selectionEnd + 1;
-      }
+      if (textarea)
+        textarea.selectionStart = textarea.selectionEnd = selectionEnd + 1;
     }, 0);
+  } else if (e.ctrlKey || e.metaKey) {
+    if (e.key === "z") {
+      e.preventDefault();
+      if (e.shiftKey) redo();
+      else undo();
+    } else if (e.key === "y") {
+      e.preventDefault();
+      redo();
+    }
   }
 };
 
