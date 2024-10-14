@@ -11,6 +11,9 @@
   "prisma": {
     "schema": "src/lib/prisma/schema.prisma"
   },
+  "resolutions": {
+    "cookie": "^0.7.0"
+  },
   "dependencies": {
     "@auth/prisma-adapter": "^1.5.1",
     "@prisma/client": "^5.13.0",
@@ -32,6 +35,7 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
+    "npm-force-resolutions": "^0.0.10",
     "postcss": "^8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.12",
