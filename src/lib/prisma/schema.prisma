@@ -53,6 +53,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   vaults        Vault[]
+  snippets      Snippet[]
 
   @@map("users")
 }
@@ -67,13 +68,30 @@ model VerificationToken {
 }
 
 model Vault {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
   userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  snippets Snippet[]
 
   @@map("vaults")
+}
+
+model Snippet {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  language  String
+  vaultId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vault Vault @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+
+  @@map("snippets")
 }
