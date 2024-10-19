@@ -1,4 +1,5 @@
 "use client";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -33,12 +34,8 @@ export default function VaultsListing({
     );
   if (isLoading)
     return (
-      <div className="mt-2 flex max-h-72 w-full animate-pulse flex-col pr-1">
-        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
-        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
-        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
-        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
-        <div className="mb-2 h-6 w-full rounded bg-gray-300" />
+      <div className="mt-8">
+        <LoadingSpinner />
       </div>
     );
 
