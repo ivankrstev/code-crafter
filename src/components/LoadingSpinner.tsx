@@ -1,9 +1,22 @@
-export default function LoadingSpinner() {
+interface SpinnerProps {
+  size?: "small" | "medium" | "large";
+}
+
+export default function LoadingSpinner({ size = "small" }: SpinnerProps) {
+  const sizeClass =
+    size === "large"
+      ? "w-24 h-24"
+      : size === "medium"
+        ? "w-16 h-16"
+        : "w-9 h-9";
+  const fontClass =
+    size === "large" ? "text-xl" : size === "medium" ? "text-lg" : "text-md";
+
   return (
     <div role="status" className="flex w-full flex-col items-center">
       <svg
         aria-hidden="true"
-        className="h-9 w-9 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+        className={`animate-spin fill-blue-600 text-gray-200 dark:text-gray-600 ${sizeClass}`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +30,7 @@ export default function LoadingSpinner() {
           fill="currentFill"
         />
       </svg>
-      <span className="pt-2">Loading...</span>
+      <span className={`pt-2 ${fontClass}`}>Loading...</span>
     </div>
   );
 }
