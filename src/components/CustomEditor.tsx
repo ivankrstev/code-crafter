@@ -1,9 +1,12 @@
 "use client";
 import { handleTextareaKeyDown } from "@/lib/customUtils";
+import { updateSnippetData } from "@/lib/snippetOperations";
 import { Fira_Code } from "next/font/google";
-import { KeyboardEvent, useCallback, useRef, useState } from "react";
+import { useParams } from "next/navigation";
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 import { PrismAsync as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark as atomOneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { toast } from "react-toastify";
 
 interface CustomEditorProps {
   code: string;
@@ -31,6 +34,8 @@ export default function CustomEditor({
   ]);
   const [currentCodeHistoryIndex, setCurrentCodeHistoryIndex] =
     useState<number>(0);
+  const [previousCode, setPreviousCode] = useState<string>(code);
+  const params = useParams();
 
   const updateCode = (newCode: string) => {
     const cursorPosition = textareaRef.current?.selectionStart ?? 0;
@@ -73,6 +78,29 @@ export default function CustomEditor({
       }, 0);
     }
   };
+
+  const updateSnippetContent = useCallback(async () => {
+    try {
+      const { id, snippet_id } = params as { id: string; snippet_id: string };
+      if (!id || !snippet_id) return;
+      const { updatedSnippet } = await updateSnippetData(id, snippet_id, {
+        content: code,
+      });
+      if (updatedSnippet) {
+        toast.success("Snippet content updated successfully");
+        setPreviousCode(code);
+      } else toast.error("Error updating snippet content");
+    } catch (error) {
+      toast.error("Error updating snippet content");
+    }
+  }, [code, params]);
+
+  useEffect(() => {
+    if (code && code !== previousCode && code.replace(/\s+/g, "") !== "") {
+      const debounceCode = setTimeout(() => updateSnippetContent(), 1000);
+      return () => clearTimeout(debounceCode);
+    }
+  }, [code, updateSnippetContent, previousCode]);
 
   return (
     <div className="editor-container scrollbar relative flex max-h-[300px] w-full max-w-full overflow-auto text-[12px]/[18px] focus-within:shadow-2xl focus:shadow-2xl">
