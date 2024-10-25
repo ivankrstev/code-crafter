@@ -1,4 +1,5 @@
 "use client";
+import CopyCodeButton from "@/components/CopyCodeButton";
 import CustomEditor from "@/components/CustomEditor";
 import SelectCodeLanguage from "@/components/SelectCodeLanguage";
 import SnippetOptionsMenu from "@/components/SnippetOptionsMenu";
@@ -20,10 +21,10 @@ export default function SnippetContainer({
 
   return (
     <div className="min-h-1/2 min-w-[60%] max-w-full rounded-lg border border-gray-500 bg-slate-800">
-      <div className="snippet-tools flex select-none items-center justify-between border-b p-0.5 font-sans text-xs">
+      <div className="flex select-none items-center justify-between border-b p-0.5 font-sans text-xs">
         <SelectCodeLanguage language={language} setLanguage={setLanguage} />
         <div className="flex items-center gap-2 pr-0.5 text-xs">
-          <button className="-mt-0.5">Copy</button>
+          <CopyCodeButton code={code} />
           <SnippetOptionsMenu
             displayLineNumbers={displayLineNumbers}
             setDisplayLineNumbers={setDisplayLineNumbers}
