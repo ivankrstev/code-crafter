@@ -23,7 +23,10 @@ export default function SnippetContainer({
         <SelectCodeLanguage language={language} setLanguage={setLanguage} />
         <div className="flex items-center gap-2 pr-0.5 text-xs">
           <button className="-mt-0.5">Copy</button>
-          <SnippetOptionsMenu />
+          <SnippetOptionsMenu
+            displayLineNumbers={displayLineNumbers}
+            setDisplayLineNumbers={setDisplayLineNumbers}
+          />
         </div>
       </div>
       <CustomEditor

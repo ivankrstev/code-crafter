@@ -2,7 +2,15 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-export default function SnippetOptionsMenu() {
+interface SnippetOptionsMenuProps {
+  displayLineNumbers: boolean;
+  setDisplayLineNumbers: (value: (prev: boolean) => boolean) => void;
+}
+
+export default function SnippetOptionsMenu({
+  displayLineNumbers,
+  setDisplayLineNumbers,
+}: SnippetOptionsMenuProps) {
   const [isVisible, setIsVisible] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
@@ -40,11 +48,18 @@ export default function SnippetOptionsMenu() {
       {isVisible && (
         <div
           ref={optionsRef}
-          className="absolute right-0 top-4 z-20 flex flex-col items-start gap-1.5 rounded-lg bg-white p-4 shadow-lg dark:bg-neutral-800"
+          className="absolute right-0 top-4 z-20 flex min-w-max flex-col items-start gap-2 rounded-lg bg-white p-4 shadow-lg dark:bg-neutral-800"
         >
-          <p>asdasd</p>
-          <p>asdsad</p>
-          <button>Delete</button>
+          <label className="inline-flex cursor-pointer items-center">
+            <span className="mr-3 text-sm">Display line numbers</span>
+            <input
+              type="checkbox"
+              checked={displayLineNumbers}
+              className="peer sr-only"
+              onChange={() => setDisplayLineNumbers((prev: boolean) => !prev)}
+            />
+            <div className="peer relative h-5 w-9 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white  rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700"></div>
+          </label>
         </div>
       )}
     </div>
