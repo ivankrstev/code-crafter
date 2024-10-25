@@ -16,6 +16,7 @@ export default function SnippetContainer({
   const [language, setLanguage] = useState<string>(languageProp);
   const [displayLineNumbers, setDisplayLineNumbers] = useState<boolean>(true);
   const [code, setCode] = useState<string>(codeProp);
+  const [fontSize, setFontSize] = useState(12);
 
   return (
     <div className="min-h-1/2 min-w-[60%] max-w-full rounded-lg border border-gray-500 bg-slate-800">
@@ -26,6 +27,8 @@ export default function SnippetContainer({
           <SnippetOptionsMenu
             displayLineNumbers={displayLineNumbers}
             setDisplayLineNumbers={setDisplayLineNumbers}
+            fontSize={fontSize}
+            setFontSize={setFontSize}
           />
         </div>
       </div>
@@ -34,6 +37,7 @@ export default function SnippetContainer({
         setCode={setCode}
         language={language}
         displayLineNumbers={displayLineNumbers}
+        fontSize={fontSize}
       />
     </div>
   );

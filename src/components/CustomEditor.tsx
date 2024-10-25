@@ -13,6 +13,7 @@ interface CustomEditorProps {
   setCode: (code: string) => void;
   language: string;
   displayLineNumbers: boolean;
+  fontSize: number;
 }
 
 interface CodeHistoryEntry {
@@ -27,6 +28,7 @@ export default function CustomEditor({
   setCode,
   language,
   displayLineNumbers,
+  fontSize,
 }: CustomEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [codeHistory, setCodeHistory] = useState<CodeHistoryEntry[]>([
@@ -104,7 +106,14 @@ export default function CustomEditor({
 
   return (
     <div className="editor-container scrollbar relative flex max-h-[300px] w-full max-w-full overflow-auto text-[12px]/[18px] focus-within:shadow-2xl focus:shadow-2xl">
-      <div className={firaCode.className} style={{ ...styles.container }}>
+      <div
+        className={firaCode.className}
+        style={{
+          ...styles.container,
+          fontSize: `${fontSize}px`,
+          lineHeight: `${fontSize + 6}px`,
+        }}
+      >
         <SyntaxHighlighter
           showLineNumbers={displayLineNumbers}
           lineNumberStyle={{

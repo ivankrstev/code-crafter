@@ -1,15 +1,20 @@
 "use client";
+import FontSizeAdjuster from "@/components/FontSizeAdjuster";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 interface SnippetOptionsMenuProps {
   displayLineNumbers: boolean;
   setDisplayLineNumbers: (value: (prev: boolean) => boolean) => void;
+  fontSize: number;
+  setFontSize: (value: (prev: number) => number) => void;
 }
 
 export default function SnippetOptionsMenu({
   displayLineNumbers,
   setDisplayLineNumbers,
+  fontSize,
+  setFontSize,
 }: SnippetOptionsMenuProps) {
   const [isVisible, setIsVisible] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -60,6 +65,7 @@ export default function SnippetOptionsMenu({
             />
             <div className="peer relative h-5 w-9 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white  rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700"></div>
           </label>
+          <FontSizeAdjuster fontSize={fontSize} setFontSize={setFontSize} />
         </div>
       )}
     </div>
