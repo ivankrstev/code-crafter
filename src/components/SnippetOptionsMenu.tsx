@@ -66,6 +66,12 @@ export default function SnippetOptionsMenu({
             <div className="peer relative h-5 w-9 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white  rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700"></div>
           </label>
           <FontSizeAdjuster fontSize={fontSize} setFontSize={setFontSize} />
+          <button
+            className="text-sm text-red-500 hover:text-red-700"
+            onClick={() => setIsVisible(false)}
+          >
+            Close
+          </button>
         </div>
       )}
     </div>
