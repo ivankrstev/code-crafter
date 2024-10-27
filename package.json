@@ -11,11 +11,15 @@
   "prisma": {
     "schema": "src/lib/prisma/schema.prisma"
   },
-  "resolutions": {
+  "overrides": {
+    "cookie": "^0.7.0"
+  },
+  "peerDependencies": {
+    "@auth/core": "^0.34.2",
     "cookie": "^0.7.0"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^1.5.1",
+    "@auth/prisma-adapter": "^2.7.2",
     "@prisma/client": "^5.13.0",
     "next": "^14.2.15",
     "next-auth": "^4.24.7",
