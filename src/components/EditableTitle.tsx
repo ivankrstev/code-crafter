@@ -45,6 +45,7 @@ export default function EditableTitle({
       >
         <Image
           src="/icons/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+          className="filter-black dark:filter-white"
           alt="Edit"
           width={16}
           height={16}

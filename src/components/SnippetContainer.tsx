@@ -20,7 +20,7 @@ export default function SnippetContainer({
   const [fontSize, setFontSize] = useState(12);
 
   return (
-    <div className="min-h-1/2 min-w-[60%] max-w-full rounded-lg border border-gray-500 bg-slate-800">
+    <div className="min-h-1/2 min-w-[60%] max-w-full rounded-lg border border-gray-500 bg-slate-100 dark:bg-slate-800">
       <div className="flex select-none items-center justify-between border-b p-0.5 font-sans text-xs">
         <SelectCodeLanguage language={language} setLanguage={setLanguage} />
         <div className="flex items-center gap-2 pr-0.5 text-xs">

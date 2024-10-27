@@ -128,7 +128,7 @@ export default function CustomEditor({
   }, [code, updateSnippetContent, previousCode]);
 
   return (
-    <div className="scrollbar relative flex max-h-[300px] w-full max-w-full overflow-y-auto overflow-x-hidden bg-inherit text-[12px]/[18px] focus-within:shadow-2xl focus:shadow-2xl">
+    <div className="scrollbar relative flex max-h-[300px] w-full max-w-full overflow-y-auto overflow-x-hidden rounded-b-lg bg-inherit text-[12px]/[18px] focus-within:shadow-2xl focus:shadow-2xl">
       <div
         className={firaCode.className}
         style={{
