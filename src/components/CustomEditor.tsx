@@ -5,7 +5,10 @@ import { Fira_Code } from "next/font/google";
 import { useParams } from "next/navigation";
 import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 import { PrismAsync as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark as atomOneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  oneDark,
+  oneLight,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 import { toast } from "react-toastify";
 
 interface CustomEditorProps {
@@ -38,6 +41,16 @@ export default function CustomEditor({
     useState<number>(0);
   const [previousCode, setPreviousCode] = useState<string>(code);
   const params = useParams();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setIsDarkMode(darkModeQuery.matches);
+    const handleThemeChange = (e: MediaQueryListEvent) =>
+      setIsDarkMode(e.matches);
+    darkModeQuery.addEventListener("change", handleThemeChange);
+    return () => darkModeQuery.removeEventListener("change", handleThemeChange);
+  }, []);
 
   const updateCode = (newCode: string) => {
     const cursorPosition = textareaRef.current?.selectionStart ?? 0;
@@ -126,7 +139,7 @@ export default function CustomEditor({
           }}
           showInlineLineNumbers={true}
           language={language}
-          style={atomOneDark}
+          style={isDarkMode ? oneDark : oneLight}
           PreTag={(props) => (
             <PreTag {...props} showLineNumbers={displayLineNumbers} />
           )}
