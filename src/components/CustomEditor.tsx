@@ -9,7 +9,6 @@ import {
   oneDark,
   oneLight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { toast } from "react-toastify";
 
 interface CustomEditorProps {
   code: string;
@@ -42,6 +41,8 @@ export default function CustomEditor({
   const [previousCode, setPreviousCode] = useState<string>(code);
   const params = useParams();
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState<string>("");
+  const [updateStatusColor, setUpdateStatusColor] = useState<string>("");
 
   useEffect(() => {
     const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -96,17 +97,26 @@ export default function CustomEditor({
 
   const updateSnippetContent = useCallback(async () => {
     try {
+      setUpdateStatus("Saving…");
+      setUpdateStatusColor("bg-blue-500");
       const { id, snippet_id } = params as { id: string; snippet_id: string };
       if (!id || !snippet_id) return;
       const { updatedSnippet } = await updateSnippetData(id, snippet_id, {
         content: code,
       });
       if (updatedSnippet) {
-        toast.success("Snippet content updated successfully");
         setPreviousCode(code);
-      } else toast.error("Error updating snippet content");
+        setUpdateStatus("Saved ✓");
+        setUpdateStatusColor("bg-lime-600");
+      } else {
+        setUpdateStatus("Error saving");
+        setUpdateStatusColor("bg-red-600");
+      }
     } catch (error) {
-      toast.error("Error updating snippet content");
+      setUpdateStatus("Error saving");
+      setUpdateStatusColor("bg-red-600");
+    } finally {
+      setTimeout(() => setUpdateStatus(""), 2000);
     }
   }, [code, params]);
 
@@ -118,7 +128,7 @@ export default function CustomEditor({
   }, [code, updateSnippetContent, previousCode]);
 
   return (
-    <div className="editor-container scrollbar relative flex max-h-[300px] w-full max-w-full overflow-auto text-[12px]/[18px] focus-within:shadow-2xl focus:shadow-2xl">
+    <div className="scrollbar relative flex max-h-[300px] w-full max-w-full overflow-y-auto overflow-x-hidden bg-inherit text-[12px]/[18px] focus-within:shadow-2xl focus:shadow-2xl">
       <div
         className={firaCode.className}
         style={{
@@ -162,6 +172,13 @@ export default function CustomEditor({
           data-gramm={false}
         />
       </div>
+      {updateStatus !== "" && (
+        <div
+          className={`animate-slideInFromRight absolute right-0 z-50 select-none rounded-bl-lg pl-2 pr-1 ${updateStatusColor}`}
+        >
+          <p className="text-sm font-semibold text-white">{updateStatus}</p>
+        </div>
+      )}
     </div>
   );
 }
