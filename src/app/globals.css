@@ -78,7 +78,18 @@ span.linenumber.react-syntax-highlighter-line-number {
 input {
   outline: none;
 }
-
+/* custom styles for the codemirror editor */
+.cm-editor {
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  border: inherit;
+}
+.cm-gutters {
+  border-bottom-left-radius: 0.5em;
+}
+.linenumbers-hidden .cm-gutters {
+  display: none;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-color: #fff;
