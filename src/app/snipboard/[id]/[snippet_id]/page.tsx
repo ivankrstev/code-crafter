@@ -2,6 +2,7 @@
 import EditableTitle from "@/components/EditableTitle";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SnippetContainer from "@/components/SnippetContainer";
+import type { LanguageValue } from "@/lib/languagesList";
 import { handleTitleChangeInSidebar } from "@/lib/snippetOperations";
 import { Snippet } from "@prisma/client";
 import { Fragment } from "react";
@@ -34,7 +35,7 @@ export default function SnippetsPage({
             }
           />
           <SnippetContainer
-            languageProp={data.snippet.language}
+            languageProp={data.snippet.language as LanguageValue}
             codeProp={data.snippet.content}
           />
         </Fragment>

@@ -1,12 +1,13 @@
 "use client";
+import CodeMirrorEditor from "@/components/CodeMirrorEditor";
 import CopyCodeButton from "@/components/CopyCodeButton";
-import CustomEditor from "@/components/CustomEditor";
 import SelectCodeLanguage from "@/components/SelectCodeLanguage";
 import SnippetOptionsMenu from "@/components/SnippetOptionsMenu";
+import type { LanguageValue } from "@/lib/languagesList";
 import { useState } from "react";
 
 interface SnippetContainerProps {
-  languageProp: string;
+  languageProp: LanguageValue;
   codeProp: string;
 }
 
@@ -14,13 +15,15 @@ export default function SnippetContainer({
   languageProp,
   codeProp,
 }: SnippetContainerProps) {
-  const [language, setLanguage] = useState<string>(languageProp);
+  const [language, setLanguage] = useState<LanguageValue>(languageProp);
   const [displayLineNumbers, setDisplayLineNumbers] = useState<boolean>(true);
   const [code, setCode] = useState<string>(codeProp);
   const [fontSize, setFontSize] = useState(12);
+  const [updateStatus, setUpdateStatus] = useState<string>("");
+  const [updateStatusColor, setUpdateStatusColor] = useState<string>("");
 
   return (
-    <div className="min-h-1/2 min-w-[60%] max-w-full rounded-lg border border-gray-500 bg-slate-100 dark:bg-slate-800">
+    <div className="min-h-1/2 min-w-[60%] max-w-full rounded-lg border border-gray-500 bg-slate-100 dark:bg-[#252933]">
       <div className="flex select-none items-center justify-between border-b p-0.5 font-sans text-xs">
         <SelectCodeLanguage language={language} setLanguage={setLanguage} />
         <div className="flex items-center gap-2 pr-0.5 text-xs">
@@ -33,13 +36,17 @@ export default function SnippetContainer({
           />
         </div>
       </div>
-      <CustomEditor
-        code={code}
-        setCode={setCode}
-        language={language}
-        displayLineNumbers={displayLineNumbers}
-        fontSize={fontSize}
-      />
+      <div className="relative">
+        <CodeMirrorEditor
+          code={code}
+          setCode={setCode}
+          language={language}
+          displayLineNumbers={displayLineNumbers}
+          fontSize={fontSize}
+          setUpdateStatus={setUpdateStatus}
+          setUpdateStatusColor={setUpdateStatusColor}
+        />
+      </div>
     </div>
   );
 }

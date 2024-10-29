@@ -1,6 +1,6 @@
 "use client";
 import { resizeSelectToFitText } from "@/lib/customUtils";
-import languagesList from "@/lib/languagesList";
+import languagesList, { LanguageValue } from "@/lib/languagesList";
 import { updateSnippetData } from "@/lib/snippetOperations";
 import { useParams } from "next/navigation";
 import { ChangeEvent, useEffect, useRef } from "react";
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 interface SelectCodeLanguageProps {
   language: string;
-  setLanguage: (language: string) => void;
+  setLanguage: (language: LanguageValue) => void;
 }
 
 export default function SelectCodeLanguage({
@@ -41,7 +41,7 @@ export default function SelectCodeLanguage({
       className="rounded-tl-lg bg-transparent text-sm outline-none focus:border-blue-500 focus:ring-blue-500"
       title="Select language"
       onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-        setLanguage(e.target.value);
+        setLanguage(e.target.value as LanguageValue);
         handleUpdateLanguage(e.target.value);
       }}
       defaultValue={language}
