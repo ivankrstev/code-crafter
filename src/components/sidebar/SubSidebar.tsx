@@ -35,7 +35,7 @@ export default function SubSidebar({
         <div className="flex items-center justify-between">
           <p className="text-xl font-semibold">{data?.vaultName}</p>
           <button
-            className="rounded-lg p-1 transition-colors duration-200 hover:bg-slate-200 dark:hover:bg-gray-600"
+            className="center min-h-7 min-w-7 rounded-lg p-1 transition-colors duration-200 hover:bg-slate-200 dark:hover:bg-gray-600"
             title="New Snippet"
             onClick={() => setCreateSnippetModalOpen(true)}
           >
@@ -51,7 +51,7 @@ export default function SubSidebar({
         {error && <div>Failed to load</div>}
         {!data && <LoadingSpinner />}
         {data && (
-          <div className="mt-3 max-h-[calc(100vh-200px)] min-h-[100px] space-y-2 overflow-y-auto">
+          <div className="scrollbar mt-3 max-h-[calc(100vh-200px)] min-h-[100px] space-y-2 overflow-y-auto">
             {data.snippets.length === 0 && (
               <p>No snippets found in this vault.</p>
             )}

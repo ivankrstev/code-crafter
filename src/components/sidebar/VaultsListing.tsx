@@ -28,7 +28,7 @@ export default function VaultsListing({
         className="relative mt-3 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
         role="alert"
       >
-        <strong className="font-bold">Error!</strong>
+        <strong className="font-bold">Error! </strong>
         <span className="block sm:inline">Something went wrong.</span>
       </div>
     );
@@ -40,7 +40,7 @@ export default function VaultsListing({
     );
 
   return (
-    <div className="scrollbar mt-2 flex max-h-72 w-full flex-col overflow-y-auto overflow-x-hidden pr-1">
+    <div className="scrollbar mt-2 flex max-h-[calc(100vh-165px)] min-h-[100px] w-full flex-col overflow-y-auto overflow-x-hidden pr-1">
       {vaults?.map((vault) => (
         <Link
           key={vault.id}
