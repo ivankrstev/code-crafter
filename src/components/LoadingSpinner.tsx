@@ -1,14 +1,17 @@
 interface SpinnerProps {
-  size?: "small" | "medium" | "large";
+  size?: "extrasmall" | "small" | "medium" | "large";
+  text?: string;
 }
 
-export default function LoadingSpinner({ size = "small" }: SpinnerProps) {
+export default function LoadingSpinner({ size = "small", text }: SpinnerProps) {
   const sizeClass =
     size === "large"
       ? "w-24 h-24"
       : size === "medium"
         ? "w-16 h-16"
-        : "w-9 h-9";
+        : size === "small"
+          ? "w-12 h-12"
+          : "w-6 h-6";
   const fontClass =
     size === "large" ? "text-xl" : size === "medium" ? "text-lg" : "text-md";
 
@@ -30,7 +33,11 @@ export default function LoadingSpinner({ size = "small" }: SpinnerProps) {
           fill="currentFill"
         />
       </svg>
-      <span className={`pt-2 ${fontClass}`}>Loading...</span>
+      {text ? (
+        <span className={`pt-2 ${fontClass}`}>{text}</span>
+      ) : (
+        !text && <span className="sr-only">Loading...</span>
+      )}
     </div>
   );
 }

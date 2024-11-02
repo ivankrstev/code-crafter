@@ -23,7 +23,7 @@ export default function SnippetsPage({
       {error && <div>Error loading snippet!</div>}
       {!data && !error && (
         <div className="mt-[5em]">
-          <LoadingSpinner size="medium" />
+          <LoadingSpinner size="medium" text="Loading snippet..." />
         </div>
       )}
       {data && data.snippet && (

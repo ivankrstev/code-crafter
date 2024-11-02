@@ -49,7 +49,7 @@ export default function SubSidebar({
           </button>
         </div>
         {error && <div>Failed to load</div>}
-        {!data && <LoadingSpinner />}
+        {!data && <LoadingSpinner text="Loading snippets..." />}
         {data && (
           <div className="scrollbar mt-3 max-h-[calc(100vh-200px)] min-h-[100px] space-y-2 overflow-y-auto">
             {data.snippets.length === 0 && (

@@ -35,7 +35,7 @@ export default function VaultsListing({
   if (isLoading)
     return (
       <div className="mt-8">
-        <LoadingSpinner />
+        <LoadingSpinner text="Loading vaults..." />
       </div>
     );
 
