@@ -40,18 +40,11 @@ export const handleTitleChangeInSidebar = async (
   });
   if (updatedSnippet) {
     mutate(`snippets/${vaultId}`, (data: any) => {
-      const { snippets } = data;
-      const targetSnippet = snippets.find(
-        (v: Snippet) => v.id === updatedSnippet.id,
-      );
-      if (!targetSnippet)
-        return {
-          ...data,
-        };
-      targetSnippet.title = updatedSnippet.title;
       return {
         ...data,
-        snippets,
+        snippets: data.snippets.map((snippet: Snippet) =>
+          snippet.id === snippetId ? { ...updatedSnippet } : snippet,
+        ),
       };
     });
   } else toast.error("Failed to update snippet title");
