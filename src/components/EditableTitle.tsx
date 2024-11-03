@@ -1,6 +1,13 @@
 "use client";
 import Image from "next/image";
-import { Fragment, KeyboardEvent, useEffect, useRef, useState } from "react";
+import {
+  FocusEventHandler,
+  Fragment,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 interface EditableTitleProps {
   initialTitle: string;
@@ -33,6 +40,7 @@ export default function EditableTitle({
   const handleBlur = () => {
     setIsEditing(false);
     onSave(title);
+    document.body.blur();
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) =>
@@ -104,46 +112,3 @@ export default function EditableTitle({
     </div>
   );
 }
-
-// isEditing ? (
-//   <div className="mr-auto flex max-w-full">
-//     <input
-//       ref={titleRef}
-//       className="flex-1 border-b-2 border-gray-300 bg-transparent text-xl font-semibold dark:border-gray-700"
-//       type="text"
-//       defaultValue={title}
-//       onChange={handleChange}
-//       // onBlur={handleBlur}
-//       onKeyDown={handleKeyDown}
-//       autoFocus
-//     />
-//     <button
-//       className="ml-1 rounded-lg px-1.5 py-1 hover:bg-gray-100 dark:hover:bg-gray-600"
-//       title="Save changes"
-//       onClick={handleBlur}
-//     >
-//       <span className="sr-only">Save changes</span>
-//       <Image
-//         className="filter-green"
-//         src="/icons/check_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-//         alt="Save changes"
-//         width={20}
-//         height={20}
-//       />
-//     </button>
-//     <button
-//       className="rounded-lg px-1.5 py-1 hover:bg-gray-100 dark:hover:bg-gray-600"
-//       title="Discard changes"
-//       onClick={(e) => setIsEditing(!isEditing)}
-//     >
-//       <span className="sr-only">Discard changes</span>
-//       <Image
-//         className="filter-red"
-//         src="/icons/close_FILL0_wght400_GRAD0_opsz24.svg"
-//         alt="Cancel changes"
-//         width={20}
-//         height={20}
-//       />
-//     </button>
-//   </div>
-// ) : (
