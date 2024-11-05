@@ -39,7 +39,7 @@ export default function CreateSnippetModal({
       const { newSnippet } = await response.json();
       toast.success("Snippet created");
       mutate(
-        `snippets/${vaultParam}`,
+        `/api/snippets/${vaultParam}`,
         (data) => ({ ...data, snippets: [...data.snippets, newSnippet] }),
         { populateCache: true },
       );

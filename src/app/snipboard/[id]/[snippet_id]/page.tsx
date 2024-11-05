@@ -2,6 +2,7 @@
 import EditableTitle from "@/components/EditableTitle";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SnippetContainer from "@/components/SnippetContainer";
+import { swrFetcher } from "@/lib/fetchHandlers";
 import type { LanguageValue } from "@/lib/languagesList";
 import { handleTitleChangeInSidebar } from "@/lib/snippetOperations";
 import { Snippet } from "@prisma/client";
@@ -14,9 +15,10 @@ export default function SnippetsPage({
   params: { id: string; snippet_id: string };
 }) {
   const { id, snippet_id } = params;
-  const fetcher = async (): Promise<{ snippet: Snippet | undefined }> =>
-    fetch(`/api/snippets/${id}/${snippet_id}`).then((res) => res.json());
-  const { data, error } = useSWR(`/snippets/${id}/${snippet_id}`, fetcher);
+  const { data, error } = useSWR<{ snippet: Snippet | undefined }>(
+    `/api/snippets/${id}/${snippet_id}`,
+    swrFetcher,
+  );
 
   return (
     <div className="mx-auto mt-6 flex w-[85%] max-w-[100%] flex-col items-center gap-y-5 py-7">

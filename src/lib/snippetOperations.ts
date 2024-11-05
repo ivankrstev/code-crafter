@@ -39,7 +39,7 @@ export const handleTitleChangeInSidebar = async (
     title: newTitle,
   });
   if (updatedSnippet) {
-    mutate(`snippets/${vaultId}`, (data: any) => {
+    mutate(`/api/snippets/${vaultId}`, (data: any) => {
       return {
         ...data,
         snippets: data.snippets.map((snippet: Snippet) =>

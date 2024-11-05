@@ -1,6 +1,6 @@
 "use client";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import Link from "next/link";
+import { swrFetcher } from "@/lib/fetchHandlers";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -17,9 +17,7 @@ export default function VaultsListing({
 }) {
   const [vaults, setVaults] = useState<Array<{ id: string; name: string }>>([]);
 
-  const fetchVaults = async () =>
-    await fetch("/api/vaults").then((res) => res.json());
-  const { data, error, isLoading } = useSWR("/api/vaults", fetchVaults);
+  const { data, error, isLoading } = useSWR("/api/vaults", swrFetcher);
   useEffect(() => data && setVaults(data.vaults), [data]);
 
   if (error)

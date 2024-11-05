@@ -1,5 +1,6 @@
 import CreateSnippetModal from "@/components/CreateSnippetModal";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { swrFetcher } from "@/lib/fetchHandlers";
 import { Snippet } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,10 +21,9 @@ export default function SubSidebar({
   const [createSnippetModalOpen, setCreateSnippetModalOpen] =
     useState<boolean>(false);
 
-  const fetchSnippets = async (selectedVault: string) =>
-    await fetch(`/api/snippets/${selectedVault}`).then((res) => res.json());
-  const { data, error } = useSWR(`snippets/${selectedVault}`, () =>
-    fetchSnippets(`${selectedVault}`),
+  const { data, error, isLoading } = useSWR(
+    `/api/snippets/${selectedVault}`,
+    swrFetcher,
   );
 
   return (
@@ -48,9 +48,9 @@ export default function SubSidebar({
             />
           </button>
         </div>
-        {error && <div>Failed to load</div>}
-        {!data && <LoadingSpinner text="Loading snippets..." />}
-        {data && (
+        {(error || data?.error) && <div>Failed to load</div>}
+        {isLoading && <LoadingSpinner text="Loading snippets..." />}
+        {data && data.snippets && (
           <div className="scrollbar mt-3 max-h-[calc(100vh-200px)] min-h-[100px] space-y-2 overflow-y-auto">
             {data.snippets.length === 0 && (
               <p>No snippets found in this vault.</p>
