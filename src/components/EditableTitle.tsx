@@ -1,13 +1,7 @@
 "use client";
+import ConfirmDiscardButtons from "@/components/ConfirmDiscardButtons";
 import Image from "next/image";
-import {
-  FocusEventHandler,
-  Fragment,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Fragment, KeyboardEvent, useEffect, useRef, useState } from "react";
 
 interface EditableTitleProps {
   initialTitle: string;
@@ -62,40 +56,18 @@ export default function EditableTitle({
           >
             {title}
           </div>
-          <button
-            className="ml-1 min-w-fit rounded-lg px-1.5 py-1 hover:bg-gray-100 dark:hover:bg-gray-600"
-            title="Save changes"
-            onClick={handleBlur}
-          >
-            <span className="sr-only">Save changes</span>
-            <Image
-              className="filter-green"
-              src="/icons/check_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-              alt="Save changes"
-              width={20}
-              height={20}
-            />
-          </button>
-          <button
-            className="min-w-fit rounded-lg px-1.5 py-1 hover:bg-gray-100 dark:hover:bg-gray-600"
-            title="Discard changes"
-            onClick={() => setIsEditing(!isEditing)}
-          >
-            <span className="sr-only">Discard changes</span>
-            <Image
-              className="filter-red"
-              src="/icons/close_FILL0_wght400_GRAD0_opsz24.svg"
-              alt="Cancel changes"
-              width={20}
-              height={20}
-            />
-          </button>
+          <ConfirmDiscardButtons
+            confirmText="Save changes"
+            cancelText="Discard changes"
+            onConfirm={handleBlur}
+            onCancel={() => setIsEditing(!isEditing)}
+          />
         </Fragment>
       ) : (
         <Fragment>
           <h1 className="break-all text-xl font-semibold">{title}</h1>
           <button
-            className="ml-1 min-h-fit min-w-fit rounded-lg px-1.5 py-1 hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="ml-1 min-h-fit min-w-fit rounded-lg px-1.5 py-1.5 hover:bg-gray-300 dark:hover:bg-gray-600"
             title="Edit title"
             onClick={() => setIsEditing(true)}
           >
