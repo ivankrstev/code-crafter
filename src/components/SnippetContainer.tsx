@@ -2,7 +2,7 @@
 import CodeMirrorEditor from "@/components/CodeMirrorEditor";
 import CopyCodeButton from "@/components/CopyCodeButton";
 import SelectCodeLanguage from "@/components/SelectCodeLanguage";
-import SnippetOptionsMenu from "@/components/SnippetOptionsMenu";
+import EditorOptionsMenu from "@/components/EditorOptionsMenu";
 import type { LanguageValue } from "@/lib/languagesList";
 import { useState } from "react";
 
@@ -28,7 +28,7 @@ export default function SnippetContainer({
         <SelectCodeLanguage language={language} setLanguage={setLanguage} />
         <div className="flex items-center gap-2 pr-0.5 text-xs">
           <CopyCodeButton code={code} />
-          <SnippetOptionsMenu
+          <EditorOptionsMenu
             displayLineNumbers={displayLineNumbers}
             setDisplayLineNumbers={setDisplayLineNumbers}
             fontSize={fontSize}
@@ -46,6 +46,13 @@ export default function SnippetContainer({
           setUpdateStatus={setUpdateStatus}
           setUpdateStatusColor={setUpdateStatusColor}
         />
+        {updateStatus !== "" && (
+          <div
+            className={`absolute right-0 top-0 z-[1] h-fit w-[70px] animate-slideInFromRight select-none rounded-bl-lg pl-2 pr-1 ${updateStatusColor}`}
+          >
+            <p className="text-sm font-semibold text-white">{updateStatus}</p>
+          </div>
+        )}
       </div>
     </div>
   );

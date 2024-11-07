@@ -10,7 +10,7 @@ interface SnippetOptionsMenuProps {
   setFontSize: (value: (prev: number) => number) => void;
 }
 
-export default function SnippetOptionsMenu({
+export default function EditorOptionsMenu({
   displayLineNumbers,
   setDisplayLineNumbers,
   fontSize,
