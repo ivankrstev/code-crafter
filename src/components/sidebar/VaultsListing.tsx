@@ -1,7 +1,10 @@
 "use client";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import SingleVaultListing from "@/components/sidebar/SingleVaultListing";
 import { swrFetcher } from "@/lib/fetchHandlers";
-import { useEffect, useState } from "react";
+import { Vault } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import useSWR from "swr";
 
 export default function VaultsListing({
@@ -15,10 +18,18 @@ export default function VaultsListing({
   closeSidebar: () => void;
   closeMainSidebar: () => void;
 }) {
-  const [vaults, setVaults] = useState<Array<{ id: string; name: string }>>([]);
-
+  const router = useRouter();
   const { data, error, isLoading } = useSWR("/api/vaults", swrFetcher);
-  useEffect(() => data && setVaults(data.vaults), [data]);
+
+  useEffect(() => {
+    if (
+      selectedVault &&
+      data &&
+      data.vaults &&
+      !data.vaults.find((vault: Vault) => vault.id === selectedVault)
+    )
+      router.push("/snipboard");
+  }, [data, router, selectedVault]);
 
   if (error)
     return (
@@ -39,23 +50,18 @@ export default function VaultsListing({
 
   return (
     <div className="scrollbar mt-2 flex max-h-[calc(100vh-165px)] min-h-[100px] w-full flex-col overflow-y-auto overflow-x-hidden pr-1">
-      {vaults?.map((vault) => (
-        <Link
-          key={vault.id}
-          id={vault.id}
-          href={`/snipboard/${vault.id}`}
-          className={`${selectedVault === vault.id ? "bg-white dark:bg-gray-400" : ""} my-0.5 w-full text-nowrap rounded-lg py-1 pl-2.5 text-sm outline-none transition-all duration-200 hover:bg-slate-200 dark:hover:bg-gray-600`}
-          onClick={() => {
-            setSelectedVault(vault.id);
-            closeSidebar();
-            closeMainSidebar();
-          }}
-          title={vault.name}
-        >
-          <span className="mr-2 inline-block h-2 w-2 bg-gray-600 dark:bg-gray-100" />
-          {vault.name}
-        </Link>
-      ))}
+      {data &&
+        data.vaults?.map((vault: Vault) => (
+          <SingleVaultListing
+            key={vault.id}
+            id={vault.id}
+            name={vault.name}
+            selectedVault={selectedVault}
+            setSelectedVault={setSelectedVault}
+            closeSidebar={closeSidebar}
+            closeMainSidebar={closeMainSidebar}
+          />
+        ))}
     </div>
   );
 }
