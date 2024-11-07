@@ -1,5 +1,5 @@
 "use client";
-import FontSizeAdjuster from "@/components/FontSizeAdjuster";
+import FontSizeAdjuster from "@/components/editor/FontSizeAdjuster";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 

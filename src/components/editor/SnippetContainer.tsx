@@ -1,8 +1,8 @@
 "use client";
-import CodeMirrorEditor from "@/components/CodeMirrorEditor";
-import CopyCodeButton from "@/components/CopyCodeButton";
-import SelectCodeLanguage from "@/components/SelectCodeLanguage";
-import EditorOptionsMenu from "@/components/EditorOptionsMenu";
+import CodeMirrorEditor from "@/components/editor/CodeMirrorEditor";
+import CopyCodeButton from "@/components/editor/CopyCodeButton";
+import EditorOptionsMenu from "@/components/editor/EditorOptionsMenu";
+import SelectCodeLanguage from "@/components/editor/SelectCodeLanguage";
 import type { LanguageValue } from "@/lib/languagesList";
 import { useState } from "react";
 
