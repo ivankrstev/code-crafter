@@ -1,5 +1,5 @@
 "use client";
-import CreateVaultModal from "@/components/CreateVaultModal";
+import CreateVaultModal from "@/components/modals/CreateVaultModal";
 import MainSidebar from "@/components/sidebar/MainSidebar";
 import SubSidebar from "@/components/sidebar/SubSidebar";
 import Image from "next/image";

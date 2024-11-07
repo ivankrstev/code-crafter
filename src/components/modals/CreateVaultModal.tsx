@@ -1,4 +1,4 @@
-import ModalBackdrop from "@/components/ModalBackdrop";
+import ModalBackdrop from "@/components/modals/ModalBackdrop";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";

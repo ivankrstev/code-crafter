@@ -1,5 +1,5 @@
-import CreateSnippetModal from "@/components/CreateSnippetModal";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import CreateSnippetModal from "@/components/modals/CreateSnippetModal";
 import { swrFetcher } from "@/lib/fetchHandlers";
 import { Snippet } from "@prisma/client";
 import Image from "next/image";
