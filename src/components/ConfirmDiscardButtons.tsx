@@ -6,11 +6,13 @@ export default function ConfirmDiscardButtons({
   cancelText,
   onConfirm,
   onCancel,
+  autoFocus,
 }: {
   confirmText: string;
   cancelText: string;
   onConfirm: () => void;
   onCancel: () => void;
+  autoFocus?: boolean;
 }) {
   return (
     <Fragment>
@@ -22,6 +24,7 @@ export default function ConfirmDiscardButtons({
           e.preventDefault();
           onConfirm();
         }}
+        autoFocus={autoFocus}
       >
         <span className="sr-only">{confirmText}</span>
         <Image
