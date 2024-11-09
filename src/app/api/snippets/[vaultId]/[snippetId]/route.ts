@@ -49,25 +49,36 @@ export async function PUT(
   if (!session || !session.user?.email)
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   const body = await request.json();
-  const { title, language, content } = body;
-  if (
-    typeof title !== "string" &&
-    typeof language !== "string" &&
-    typeof content !== "string"
-  )
+  const { title, language, content, isLocked, isShared } = body;
+  if (title !== undefined && typeof title !== "string")
+    return Response.json({ error: "Title can't be empty" }, { status: 400 });
+  if (language !== undefined && typeof language !== "string")
+    return Response.json({ error: "Language can't be empty" }, { status: 400 });
+  if (content !== undefined && typeof content !== "string")
+    return Response.json({ error: "Content can't be empty" }, { status: 400 });
+  if (isLocked !== undefined && typeof isLocked !== "boolean")
     return Response.json(
-      { error: "Title, language or content can't be empty" },
+      { error: "isLocked must be a boolean" },
+      { status: 400 },
+    );
+  if (isShared !== undefined && typeof isShared !== "boolean")
+    return Response.json(
+      { error: "isShared must be a boolean" },
       { status: 400 },
     );
   const fieldsToUpdate: {
     title?: string;
     language?: string;
     content?: string;
+    isLocked?: boolean;
+    isShared?: boolean;
   } = {};
   if (title && title.trim() !== "") fieldsToUpdate.title = title.trim();
   if (language && language.trim() !== "")
     fieldsToUpdate.language = language.trim();
   if (content) fieldsToUpdate.content = content;
+  if (typeof isLocked === "boolean") fieldsToUpdate.isLocked = isLocked;
+  if (typeof isShared === "boolean") fieldsToUpdate.isShared = isShared;
   try {
     const updatedSnippet = await prisma.snippet.update({
       where: {
