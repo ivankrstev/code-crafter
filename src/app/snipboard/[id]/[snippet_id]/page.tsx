@@ -4,7 +4,6 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import SnipperToolbar from "@/components/editor/SnipperToolbar";
 import SnippetContainer from "@/components/editor/SnippetContainer";
 import { swrFetcher } from "@/lib/fetchHandlers";
-import type { LanguageValue } from "@/lib/languagesList";
 import { handleTitleChangeInSidebar } from "@/lib/snippetOperations";
 import { Snippet } from "@prisma/client";
 import { Fragment } from "react";
@@ -38,10 +37,7 @@ export default function SnippetsPage({
               handleTitleChangeInSidebar(id, snippet_id, newTitle)
             }
           />
-          <SnippetContainer
-            languageProp={data.snippet.language as LanguageValue}
-            codeProp={data.snippet.content}
-          />
+          <SnippetContainer snippet={data.snippet} />
         </Fragment>
       )}
     </div>

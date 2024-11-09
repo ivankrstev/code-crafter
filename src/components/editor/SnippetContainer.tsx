@@ -4,20 +4,19 @@ import CopyCodeButton from "@/components/editor/CopyCodeButton";
 import EditorOptionsMenu from "@/components/editor/EditorOptionsMenu";
 import SelectCodeLanguage from "@/components/editor/SelectCodeLanguage";
 import type { LanguageValue } from "@/lib/languagesList";
+import { Snippet } from "@prisma/client";
 import { useState } from "react";
 
 interface SnippetContainerProps {
-  languageProp: LanguageValue;
-  codeProp: string;
+  snippet: Snippet;
 }
 
-export default function SnippetContainer({
-  languageProp,
-  codeProp,
-}: SnippetContainerProps) {
-  const [language, setLanguage] = useState<LanguageValue>(languageProp);
+export default function SnippetContainer({ snippet }: SnippetContainerProps) {
+  const [language, setLanguage] = useState<LanguageValue>(
+    snippet.language as LanguageValue,
+  );
   const [displayLineNumbers, setDisplayLineNumbers] = useState<boolean>(true);
-  const [code, setCode] = useState<string>(codeProp);
+  const [code, setCode] = useState<string>(snippet.content);
   const [fontSize, setFontSize] = useState(12);
   const [updateStatus, setUpdateStatus] = useState<string>("");
   const [updateStatusColor, setUpdateStatusColor] = useState<string>("");
@@ -45,6 +44,7 @@ export default function SnippetContainer({
           fontSize={fontSize}
           setUpdateStatus={setUpdateStatus}
           setUpdateStatusColor={setUpdateStatusColor}
+          isLocked={snippet.isLocked}
         />
         {updateStatus !== "" && (
           <div

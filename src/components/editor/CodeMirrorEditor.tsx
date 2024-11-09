@@ -15,6 +15,7 @@ interface CustomEditorProps {
   fontSize: number;
   setUpdateStatus: (status: string) => void;
   setUpdateStatusColor: (color: string) => void;
+  isLocked: boolean;
 }
 
 export default function CodeMirrorEditor({
@@ -25,6 +26,7 @@ export default function CodeMirrorEditor({
   fontSize,
   setUpdateStatus,
   setUpdateStatusColor,
+  isLocked,
 }: CustomEditorProps) {
   const [extensions, setExtensions] = useState<Extension[]>([]);
   const [previousCode, setPreviousCode] = useState<string>(code);
@@ -80,6 +82,7 @@ export default function CodeMirrorEditor({
       height="200px"
       extensions={extensions}
       onChange={setCode}
+      readOnly={isLocked}
     />
   );
 }
