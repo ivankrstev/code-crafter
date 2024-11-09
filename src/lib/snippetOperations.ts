@@ -6,6 +6,7 @@ interface SnippetDataToUpdate {
   title?: string;
   content?: string;
   language?: string;
+  isLocked?: boolean;
 }
 
 export const updateSnippetData = async (
@@ -23,6 +24,13 @@ export const updateSnippetData = async (
     });
     if (res.ok) {
       const { updatedSnippet } = await res.json();
+      mutate(
+        `/api/snippets/${vaultId}/${snippetId}`,
+        () => {
+          return { snippet: updatedSnippet };
+        },
+        true,
+      );
       return { updatedSnippet };
     } else return { updatedSnippet: undefined };
   } catch (error) {
