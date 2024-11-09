@@ -30,7 +30,11 @@ export default function SnippetsPage({
       )}
       {data && data.snippet && (
         <Fragment>
-          <SnipperToolbar id={id} snippet_id={snippet_id} />
+          <SnipperToolbar
+            id={id}
+            snippet_id={snippet_id}
+            snippet={data.snippet}
+          />
           <EditableTitle
             initialTitle={data.snippet.title}
             onSave={(newTitle: string) =>
