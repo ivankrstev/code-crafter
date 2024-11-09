@@ -1,6 +1,7 @@
 "use client";
 import EditableTitle from "@/components/EditableTitle";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import SnipperToolbar from "@/components/editor/SnipperToolbar";
 import SnippetContainer from "@/components/editor/SnippetContainer";
 import { swrFetcher } from "@/lib/fetchHandlers";
 import type { LanguageValue } from "@/lib/languagesList";
@@ -30,6 +31,7 @@ export default function SnippetsPage({
       )}
       {data && data.snippet && (
         <Fragment>
+          <SnipperToolbar id={id} snippet_id={snippet_id} />
           <EditableTitle
             initialTitle={data.snippet.title}
             onSave={(newTitle: string) =>
