@@ -49,7 +49,7 @@ export async function PUT(
   if (!session || !session.user?.email)
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   const body = await request.json();
-  const { title, language, content, isLocked, isShared } = body;
+  const { title, language, content, isLocked, isShared, isFavorite } = body;
   if (title !== undefined && typeof title !== "string")
     return Response.json({ error: "Title can't be empty" }, { status: 400 });
   if (language !== undefined && typeof language !== "string")
@@ -59,6 +59,11 @@ export async function PUT(
   if (isLocked !== undefined && typeof isLocked !== "boolean")
     return Response.json(
       { error: "isLocked must be a boolean" },
+      { status: 400 },
+    );
+  if (isFavorite !== undefined && typeof isFavorite !== "boolean")
+    return Response.json(
+      { error: "isFavorite must be a boolean" },
       { status: 400 },
     );
   if (isShared !== undefined && typeof isShared !== "boolean")
@@ -72,6 +77,11 @@ export async function PUT(
     content?: string;
     isLocked?: boolean;
     isShared?: boolean;
+    isFavorite?: boolean;
+    favoritedBy?: {
+      connect?: { email: string };
+      disconnect?: { email: string };
+    };
   } = {};
   if (title && title.trim() !== "") fieldsToUpdate.title = title.trim();
   if (language && language.trim() !== "")
@@ -79,6 +89,12 @@ export async function PUT(
   if (content) fieldsToUpdate.content = content;
   if (typeof isLocked === "boolean") fieldsToUpdate.isLocked = isLocked;
   if (typeof isShared === "boolean") fieldsToUpdate.isShared = isShared;
+  if (typeof isFavorite === "boolean") {
+    fieldsToUpdate.isFavorite = isFavorite;
+    fieldsToUpdate.favoritedBy = isFavorite
+      ? { connect: { email: session.user.email } }
+      : { disconnect: { email: session.user.email } };
+  }
   try {
     const updatedSnippet = await prisma.snippet.update({
       where: {
