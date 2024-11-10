@@ -7,6 +7,7 @@ interface SnippetDataToUpdate {
   content?: string;
   language?: string;
   isLocked?: boolean;
+  isFavorite?: boolean;
 }
 
 export const updateSnippetData = async (

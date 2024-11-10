@@ -21,6 +21,39 @@ export default function SnipperToolbar({
 
   return (
     <div className="flex w-full justify-end gap-x-1">
+      {snippet.isFavorite ? (
+        <button
+          className="rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-400"
+          title="Remove from favorites"
+          onClick={async () => {
+            await updateSnippetData(id, snippet_id, { isFavorite: false });
+          }}
+        >
+          <Image
+            className="filter-black dark:filter-white"
+            src="/icons/star_24dp_E8EAED_FILL1_wght400_GRAD0_opsz24.svg"
+            alt="Starred"
+            width={20}
+            height={20}
+          />
+        </button>
+      ) : (
+        <button
+          className="rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-400"
+          title="Add to favorites"
+          onClick={async () => {
+            await updateSnippetData(id, snippet_id, { isFavorite: true });
+          }}
+        >
+          <Image
+            className="filter-black dark:filter-white"
+            src="/icons/star_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+            alt="Star"
+            width={20}
+            height={20}
+          />
+        </button>
+      )}
       {snippet.isLocked ? (
         <button
           className="rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-400"
