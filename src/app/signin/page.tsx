@@ -1,5 +1,6 @@
 import SocialSigninButton from "@/components/SocialSigninButton";
 import { Metadata } from "next";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Fragment } from "react";
 
@@ -8,7 +9,12 @@ export const metadata: Metadata = {
   description: "Sign in to your account to access your snippets and more",
 };
 
-export default async function Signin() {
+export default async function Signin({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const error = (await searchParams).error as string | undefined;
   async function signinUserWithEmail(formData: FormData) {
     "use server";
     const email = formData.get("email") as string;
@@ -33,6 +39,22 @@ export default async function Signin() {
       : redirect("/signin?error=email");
   }
 
+  const errorMessages: { [key: string]: string } = {
+    email: "There was an issue with your email. Please try again.",
+    CredentialsSignin:
+      "Sign in failed. Check the details you provided and try again.",
+    OAuthAccountNotLinked:
+      "Your account is linked to another sign-in method. Please use the original provider to sign in.",
+    OAuthCallbackError:
+      "There was an issue with the sign-in provider. Please try again.",
+    OAuthCreateAccountError:
+      "There was an issue creating your account. Please try again.",
+    OAuthSignin: "Sign in failed. Please try again.",
+    SessionRequired: "You must be signed in to access this page.",
+    AccessDenied: "You do not have permission to sign in.",
+    default: "An unknown error occurred. Please try again.",
+  };
+
   return (
     <Fragment>
       <div className="flex h-screen items-center justify-center">
@@ -40,6 +62,18 @@ export default async function Signin() {
           <h1 className="mb-6 text-center text-2xl font-semibold">
             Sign in to your account
           </h1>
+          {error && (
+            <div className="mb-4 flex items-start rounded-md bg-red-100 p-3 text-sm text-red-600">
+              <Image
+                className="filter-red me-3 mt-[2px]"
+                src="/icons/info_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                alt="Error icon"
+                width={20}
+                height={20}
+              />
+              <p>{errorMessages[error] || errorMessages.default}</p>
+            </div>
+          )}
           <form action={signinUserWithEmail}>
             <div>
               <label htmlFor="email" className="text-sm font-medium">
