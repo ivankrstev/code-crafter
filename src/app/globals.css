@@ -27,12 +27,12 @@ body {
     filter: brightness(0);
   }
   .filter-green {
-    filter: invert(54%) sepia(88%) saturate(2403%) hue-rotate(81deg)
-      brightness(121%) contrast(124%);
+    filter: brightness(0) saturate(100%) invert(65%) sepia(38%) saturate(4607%)
+      hue-rotate(76deg) brightness(107%) contrast(134%);
   }
   .filter-red {
-    filter: invert(13%) sepia(98%) saturate(5006%) hue-rotate(358deg)
-      brightness(102%) contrast(119%);
+    filter: brightness(0) saturate(100%) invert(15%) sepia(86%) saturate(6012%)
+      hue-rotate(2deg) brightness(102%) contrast(122%);
   }
   .scrollbar::-webkit-scrollbar {
     width: 14px;
