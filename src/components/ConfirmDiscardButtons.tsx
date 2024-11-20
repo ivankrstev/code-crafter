@@ -17,7 +17,7 @@ export default function ConfirmDiscardButtons({
   return (
     <Fragment>
       <button
-        className="mx-1 rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-400"
+        className="mx-1 min-w-max rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-400"
         title={confirmText}
         onClick={(e) => {
           e.stopPropagation();
@@ -36,7 +36,7 @@ export default function ConfirmDiscardButtons({
         />
       </button>
       <button
-        className="rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-400"
+        className="min-w-max rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-400"
         title={cancelText}
         onClick={(e) => {
           e.stopPropagation();
