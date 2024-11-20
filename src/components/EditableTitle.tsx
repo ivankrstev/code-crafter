@@ -26,7 +26,7 @@ export default function EditableTitle({
       selection?.removeAllRanges();
       selection?.addRange(range);
     }
-  }, [title, isEditing]);
+  }, [isEditing]);
 
   const handleChange = (e: React.ChangeEvent<HTMLDivElement>) =>
     setTitle(e.target.innerText);
@@ -54,7 +54,7 @@ export default function EditableTitle({
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
           >
-            {title}
+            {initialTitle}
           </div>
           <ConfirmDiscardButtons
             confirmText="Save changes"
@@ -65,7 +65,7 @@ export default function EditableTitle({
         </Fragment>
       ) : (
         <Fragment>
-          <h1 className="break-all text-xl font-semibold">{title}</h1>
+          <h1 className="break-all text-xl font-semibold">{initialTitle}</h1>
           <button
             className="ml-1 min-h-fit min-w-fit rounded-lg px-1.5 py-1.5 hover:bg-gray-300 dark:hover:bg-gray-600"
             title="Edit title"
