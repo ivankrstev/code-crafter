@@ -1,4 +1,5 @@
 "use client";
+import LogoWrapper from "@/components/LogoWrapper";
 import CreateVaultModal from "@/components/modals/CreateVaultModal";
 import MainSidebar from "@/components/sidebar/MainSidebar";
 import SubSidebar from "@/components/sidebar/SubSidebar";
@@ -28,15 +29,7 @@ export default function Sidebars() {
         // className={`${isSidebarOpen ? "block" : "hidden md:block"} fixed z-50 min-h-screen min-w-80 max-w-80 flex-col bg-slate-300 md:static md:w-72 md:border-r dark:bg-slate-800`}
       >
         <div className="flex w-full justify-center py-4">
-          <Image
-            src="/code-crafter-full-logo.svg"
-            alt="Logo"
-            className="h-auto w-7/12"
-            priority
-            width={150}
-            height={100}
-          />
-          {/* {isSidebarOpen && ( */}
+          <LogoWrapper />
           <button
             id="close-sidebar"
             className="absolute right-3 top-6 block md:hidden"
@@ -54,7 +47,6 @@ export default function Sidebars() {
               height={32}
             />
           </button>
-          {/* )} */}
         </div>
         <div className="flex flex-col p-4">
           {mainSidebarVisible && (
