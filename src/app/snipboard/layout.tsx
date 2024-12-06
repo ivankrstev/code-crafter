@@ -7,11 +7,11 @@ export default function SnipBoardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       <Sidebars />
       <div
         id="main-content"
-        className="max-w-[100%] flex-1 md:max-w-[calc(100%-320px)]"
+        className="max-w-[100%] flex-1 overflow-y-auto md:max-w-[calc(100%-320px)]"
       >
         <HeaderBar />
         {children}
