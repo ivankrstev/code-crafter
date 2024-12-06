@@ -22,7 +22,7 @@ export default function SnippetContainer({ snippet }: SnippetContainerProps) {
   const [updateStatusColor, setUpdateStatusColor] = useState<string>("");
 
   return (
-    <div className="min-h-1/2 min-w-[60%] max-w-full rounded-lg border border-gray-500 bg-slate-100 dark:bg-[#252933]">
+    <div className="min-h-[7vh] min-w-[70%] max-w-full rounded-lg border border-gray-500 bg-slate-100 dark:bg-[#252933]">
       <div className="flex select-none items-center justify-between border-b p-0.5 font-sans text-xs">
         <SelectCodeLanguage language={language} setLanguage={setLanguage} />
         <div className="flex items-center gap-2 pr-0.5 text-xs">
@@ -48,7 +48,7 @@ export default function SnippetContainer({ snippet }: SnippetContainerProps) {
         />
         {updateStatus !== "" && (
           <div
-            className={`absolute right-0 top-0 z-[1] h-fit w-[70px] animate-slideInFromRight select-none rounded-bl-lg pl-2 pr-1 ${updateStatusColor}`}
+            className={`absolute right-0 top-0 z-[1] h-fit w-[70px] select-none rounded-bl-lg pl-2 pr-1 ${updateStatusColor}`}
           >
             <p className="text-sm font-semibold text-white">{updateStatus}</p>
           </div>

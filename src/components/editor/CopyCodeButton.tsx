@@ -9,8 +9,7 @@ export default function CopyCodeButton({ code }: CustomEditorProps) {
 
   return (
     <button
-      className="-mt-0.5"
-      style={{ color: copyStatus === "Copied ✓" ? "#90EE90" : "inherit" }}
+      className={`-mt-0.5 ${copyStatus === "Copied ✓" ? "text-green-600 dark:text-green-400" : ""}`}
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(code);
