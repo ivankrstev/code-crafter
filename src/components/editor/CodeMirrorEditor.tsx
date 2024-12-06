@@ -1,7 +1,7 @@
 import type { LanguageValue } from "@/lib/languagesList";
 import { updateSnippetData } from "@/lib/snippetOperations";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
-import { vscodeDark } from "@uiw/codemirror-theme-vscode";
+import { vscodeDark, vscodeLight } from "@uiw/codemirror-theme-vscode";
 import type { Extension } from "@uiw/react-codemirror";
 import CodeMirror from "@uiw/react-codemirror";
 import { useParams } from "next/navigation";
@@ -30,7 +30,23 @@ export default function CodeMirrorEditor({
 }: CustomEditorProps) {
   const [extensions, setExtensions] = useState<Extension[]>([]);
   const [previousCode, setPreviousCode] = useState<string>(code);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const params = useParams();
+
+  useEffect(() => {
+    const darkModeMediaQuery = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    );
+    // Initial check
+    setIsDarkMode(darkModeMediaQuery.matches);
+    const handleChange = (event: MediaQueryListEvent) =>
+      setIsDarkMode(event.matches);
+    darkModeMediaQuery.addEventListener("change", handleChange);
+    // Cleanup
+    return () => {
+      darkModeMediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (language === "plaintext") {
@@ -78,8 +94,8 @@ export default function CodeMirrorEditor({
       className={`${!displayLineNumbers ? "linenumbers-hidden" : ""}`}
       style={{ fontSize: `${fontSize}px` }}
       value={code}
-      theme={vscodeDark}
-      height="200px"
+      theme={isDarkMode ? vscodeDark : vscodeLight}
+      height="auto"
       extensions={extensions}
       onChange={setCode}
       readOnly={isLocked}
