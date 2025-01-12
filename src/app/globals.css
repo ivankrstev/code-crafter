@@ -4,7 +4,7 @@
 
 :root {
   --foreground-color: rgb(0, 0, 0);
-  --background-color: #eceff1;
+  --background-color: #fff;
   --form-background: #fff;
 }
 
@@ -79,11 +79,10 @@ img {
   -moz-user-drag: none;
   -o-user-drag: none;
 }
-span.linenumber.react-syntax-highlighter-line-number {
-  visibility: visible !important;
-  color: rgb(100 116 139) !important;
-}
 input {
+  outline: none;
+}
+input:focus-visible {
   outline: none;
 }
 /* custom styles for the codemirror editor */
@@ -101,10 +100,7 @@ input {
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-color: #fff;
-    --background-color: #333333;
+    --background-color: #171717;
     --form-background: #203040;
-  }
-  span.linenumber.react-syntax-highlighter-line-number {
-    color: rgb(203 213 225) !important;
   }
 }
