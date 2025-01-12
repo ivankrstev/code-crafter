@@ -1,3 +1,4 @@
+import LogoNoText from "@/components/LogoNoText";
 import SocialSigninButton from "@/components/SocialSigninButton";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -58,8 +59,9 @@ export default async function Signin({
   return (
     <Fragment>
       <div className="flex h-screen items-center justify-center">
-        <div className="w-96 rounded-lg bg-form p-8 shadow-xl">
-          <h1 className="mb-6 text-center text-2xl font-semibold">
+        <div className="w-96 rounded-lg p-8">
+          <LogoNoText />
+          <h1 className="mb-6 text-center text-3xl font-medium">
             Sign in to your account
           </h1>
           {error && (
@@ -76,7 +78,7 @@ export default async function Signin({
           )}
           <form action={signinUserWithEmail}>
             <div>
-              <label htmlFor="email" className="text-sm font-medium">
+              <label htmlFor="email" className="text-base font-medium">
                 Email address
               </label>
               <input
@@ -85,7 +87,7 @@ export default async function Signin({
                 name="email"
                 autoComplete="email"
                 required
-                className="mt-2 w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm outline-0 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="mt-2 w-full rounded-md py-1.5 pl-3 ring-1 ring-gray-600 transition duration-200 placeholder:text-gray-400 focus:ring-4 focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-zinc-800"
               />
             </div>
             <div className="mt-5 text-center">
