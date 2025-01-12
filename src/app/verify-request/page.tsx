@@ -1,3 +1,4 @@
+import LogoNoText from "@/components/LogoNoText";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
 export default function VerifyRequestPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-12 sm:px-6 lg:px-8">
-      <div className="w-11/12 rounded-lg bg-form px-4 py-8 text-center text-black shadow sm:mx-auto sm:px-10 md:max-w-md dark:text-white">
+      <div className="w-11/12 rounded-lg px-4 py-8 text-center text-black shadow sm:mx-auto sm:px-10 md:max-w-md dark:text-white">
+        <LogoNoText />
         <h1 className="mb-6 text-center text-3xl font-semibold">
           Verify Request
         </h1>
